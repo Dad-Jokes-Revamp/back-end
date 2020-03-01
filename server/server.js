@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const authRouter = require('../auth/auth-router');
+const jokesRouter = require('../jokes/jokes-router');
 
 const restricted = require('../auth/restricted-middleware');
 
@@ -17,5 +18,6 @@ server.get('/', (req, res) => {
 });
 
 server.use('/auth', authRouter);
+server.use('/jokes', restricted, jokesRouter);
 
 module.exports = server;
