@@ -7,7 +7,9 @@ module.exports = {
     addJokes,
     removeJoke,
     getJokesById,
-    editJoke
+    editJoke,
+    getJokePosts,
+    insert
 };
 
 function get() {
@@ -54,5 +56,19 @@ function editJoke(changes, id) {
     return db('jokes')
         .where({ id })
         .update(changes, '*')
-};
+}
 
+function getJokePosts(id) {
+    return db('jokes')
+        .join('users', 'user_id', 'jokes.user_id')
+        .select('jokes.id', 'jokes.text', 'users.name as postedBy')
+        .where('jokes.user_id', id)
+}
+
+function insert(user) {
+    return db('jokes')
+        .insert(user)
+        .then(ids => {
+            return getJokesById(ids[0]);
+        });
+}

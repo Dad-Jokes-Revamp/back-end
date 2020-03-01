@@ -18,6 +18,6 @@ server.get('/', (req, res) => {
 });
 
 server.use('/auth', authRouter);
-server.use('/jokes', restricted, jokesRouter);
+server.use('/jokes', jokesRouter);
 
 module.exports = server;
