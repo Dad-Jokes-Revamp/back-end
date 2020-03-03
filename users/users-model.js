@@ -14,8 +14,8 @@ function add(user) {
     return db('users').insert(user, 'id')
 }
 
-function findByUser(username) {
+function findByUser(email) {
     return db('users')
-        .where({ username: username })
+        .where({ email: email })
         .first();
 }

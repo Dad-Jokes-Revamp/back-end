@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
             .string("lastname", 255)
             .notNullable();
         tbl
-            .string("username", 255)
+            .string("email", 255)
             .notNullable()
             .unique();
         tbl.string("password").notNullable;

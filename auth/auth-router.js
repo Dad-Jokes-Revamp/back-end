@@ -6,7 +6,7 @@ const validateUser = require('../middleware/middleware');
 const bcrypt = require('bcryptjs');
 
 router.post('/register', validateUser, (req, res) => {
-    const user = ({ username, password } = req.body);
+    const user = ({ firstname, lastname, email, password } = req.body);
 
     bcrypt
         .hash(user.password, 8)
@@ -19,8 +19,9 @@ router.post('/register', validateUser, (req, res) => {
                     res.status(201).json({ userId: newUser[0], user: true });
                 })
                 .catch((error) => {
+                    console.log(error)
                     if (error.errno === 19) {
-                        res.status(403).json({ message: 'Username already exists' });
+                        res.status(403).json({ message: 'Email already exists' });
                     } else {
                         res.status(500).json({ message: 'Error adding new user' });
                     }
@@ -32,9 +33,9 @@ router.post('/register', validateUser, (req, res) => {
 });
 
 router.post('/login', validateUser, (req, res) => {
-    const { password, username } = req.body;
+    const { password, email } = req.body;
     userDB
-        .getByUsername(username)
+        .getByUsername(email)
         .first()
         .then(user => {
             if (user && bcrypt.compare(password, user.password)) {
@@ -50,7 +51,7 @@ router.post('/login', validateUser, (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ message: 'Invalid username or password', err })
+            res.status(500).json({ message: 'Invalid email or password', err })
         })
 })
 

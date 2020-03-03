@@ -8,9 +8,9 @@ module.exports = {
     getByUsername,
 };
 
-function getByUsername(username) {
+function getByUsername(email) {
     return knex
         .select('*')
         .from('users')
-        .where({ username });
+        .where({ email });
 }
